@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text , View} from 'react-native'
+import { Text, View } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import drawerNavigator from './navigator/drawer'
 import Connector from '../utils/connector'
-import Login from "../scenes/login" 
+import Login from "../scenes/login"
 class Routes extends Component {
   componentWillMount() {
     // authentication
@@ -13,20 +13,23 @@ class Routes extends Component {
   }
 
   render() {
-    const { checked, loggedIn,actions } = this.props
-  if (!checked) return <Text>Loading...</Text>
- 
+    const { checked, loggedIn, actions } = this.props
+    if (!checked) return <Text>Loading...</Text>
+
     // TODO: switch router by loggedIn state
-    console.log('[##] loggedIn', loggedIn)
     const Router = createAppContainer(drawerNavigator)
-    if(loggedIn){
-      return <Router/>
-    }else{
-      
-      return <Login loginTrue={(state)=>{actions.loginAction(state);}} />
+    if (loggedIn) {
+     // return <Login loginTrue={(state) => { actions.loginAction(state); }} />
+       return <Router/>
+    } else {
+
+      return <Login loginTrue={(state,userInfo) => {
+        actions.loginAction(state);
+        actions.saveMe(userInfo)
+      }} />
     }
-    
-    
+
+
   }
 }
 

@@ -66,7 +66,6 @@ class Address extends Component {
   
   render() {
     const { cityList ,selectedCity} = this.state;
-    console.log({cityList , selectedCity})
     return (
       <View style={[styles.container, styles.step1]}>
         <View >

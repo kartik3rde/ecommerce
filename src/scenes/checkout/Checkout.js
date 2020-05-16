@@ -17,10 +17,10 @@ export default class Checkout extends Component {
   }
 
   onNext = () => {
-    console.log("Next");
+    //console.log("Next");
   };
   onBack = () => {
-    console.log("Back");
+   // console.log("Back");
   };
 
   finish = state => {

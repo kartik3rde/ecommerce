@@ -9,8 +9,8 @@ export const images = {
   combo: require('../../assets/images/combo.png'),
   back: require('../../assets/images/back.png'),
   arrow: require('../../assets/images/arrow.png'),
-  loader: require('../../assets/images/lodr.gif')
-  
+  //loader: require('../../assets/images/lodr.gif'),
+  loader: require('../../assets/images/loader.gif')
 }
 
 // image preloading
