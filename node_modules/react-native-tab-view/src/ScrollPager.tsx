@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated';
 import { Props } from './Pager';
 import { Route, Listener } from './types';
 
-const { event, divide, Value } = Animated;
+const { event, divide, onChange, cond, eq, round, call, Value } = Animated;
 
 type State = {
   initialOffset: { x: number; y: number };
@@ -66,7 +66,9 @@ export default class ScrollPager<T extends Route> extends React.Component<
   private jumpTo = (key: string) => {
     const { navigationState, keyboardDismissMode, onIndexChange } = this.props;
 
-    const index = navigationState.routes.findIndex(route => route.key === key);
+    const index = navigationState.routes.findIndex(
+      (route) => route.key === key
+    );
 
     if (navigationState.index === index) {
       this.scrollTo(index * this.props.layout.width);
@@ -136,6 +138,7 @@ export default class ScrollPager<T extends Route> extends React.Component<
       onSwipeStart,
       onSwipeEnd,
       overscroll,
+      onIndexChange,
       navigationState,
     } = this.props;
 
@@ -156,7 +159,7 @@ export default class ScrollPager<T extends Route> extends React.Component<
       addListener: this.addListener,
       removeListener: this.removeListener,
       jumpTo: this.jumpTo,
-      render: children => (
+      render: (children) => (
         <Animated.ScrollView
           pagingEnabled
           directionalLockEnabled
@@ -188,6 +191,16 @@ export default class ScrollPager<T extends Route> extends React.Component<
           ref={this.scrollViewRef}
         >
           {children}
+          <Animated.Code
+            exec={onChange(
+              this.relativePosition,
+              cond(eq(round(this.relativePosition), this.relativePosition), [
+                call([this.relativePosition], ([relativePosition]) =>
+                  onIndexChange(relativePosition)
+                ),
+              ])
+            )}
+          />
         </Animated.ScrollView>
       ),
     });

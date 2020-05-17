@@ -17,15 +17,15 @@ const styles = StyleSheet.create({
     },
     proImage: {
         height: 100,
-        width: screenWidth/2
+        width: screenWidth / 2
     },
     detailsSection: {
         flexWrap: 'wrap',
-        width:screenWidth/2
+        width: screenWidth / 2
     },
     title: {
         fontSize: 20,
-        width:screenWidth/2-10,
+        width: screenWidth / 2 - 10,
         textAlign: "right",
         marginRight: 10,
     },
@@ -112,10 +112,11 @@ class SingleProduct extends Component {
         super(props);
         this.state = {
             selectValue: "1",
+            selectVariation: "",
             modalVisible: false
         }
     }
-   _changeState(type) {
+    _changeState(type) {
         const { openModal } = this.state
         this.setState({ openModal: !openModal })
     }
@@ -125,12 +126,17 @@ class SingleProduct extends Component {
             this.setState({ modalVisible: false });
         }.bind(this), 2000);
     }
-    _getUrl(url){
-        return 'https://f91.in/grocery/'+url
-      }
+    _getUrl(url) {
+        return 'https://f91.in/grocery/' + url
+    }
     render() {
-        const { selectValue, modalVisible } = this.state
+
+        const { selectValue, selectVariation, modalVisible } = this.state
         const { productData } = this.props
+        let variantList = productData.variations
+        variantList = variantList && variantList.length > 0 ? JSON.parse(variantList) : []
+
+        console.log(productData)
         return (
             <View style={styles.wrapper}>
                 <View style={styles.singleProduct} onStartShouldSetResponder={() => this._changeState()}>
@@ -143,32 +149,34 @@ class SingleProduct extends Component {
                     </View>
                     <View style={styles.detailsSection} >
                         <Text style={styles.title}> {productData.title}</Text>
-        <Text style={styles.price}> ₹ {parseInt(productData.price).toFixed(2)}</Text>
-                        <Text style={styles.type}>Category one / Veg</Text>
+                        <Text style={styles.price}> ₹ {parseInt(productData.price).toFixed(2)}</Text>
+                        <Text style={styles.type}> {productData.type}</Text>
 
                     </View>
                 </View>
                 <View>
-                    <Text style={styles.subDetails}> Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text </Text>
+                    <Text style={styles.subDetails}> {productData.detail}</Text>
                 </View>
 
                 <View style={styles.detailsSection} >
 
                     <View style={styles.addToCartSection}>
-                        <View style={styles.selectWrapper}>
+                        {variantList && variantList.length >= 1 && <View style={styles.selectWrapper}>
+
                             <Picker
-                                selectedValue={selectValue}
+                                selectedValue={selectVariation}
                                 style={styles.select}
-                                onValueChange={(itemValue) => this.setState({ selectValue: itemValue })}
+                                onValueChange={(itemValue) => this.setState({ selectVariation: itemValue })}
                             >
-                                <Picker.Item label="Variant 1" value="1" />
-                                <Picker.Item label="Variant 1" value="2" />
-                                <Picker.Item label="Variant 1" value="3" />
-                                <Picker.Item label="Variant 1" value="4" />
-                                <Picker.Item label="Variant 1" value="5" />
-                                <Picker.Item label="Variant 1" value="6" />
+                                {
+                                    variantList && variantList.length > 0 && variantList.map((itm) =>
+                                      <Picker.Item label={itm.title} value={itm.title} />
+                                    )
+                                }
+
                             </Picker>
                         </View>
+                        }
                         <View style={styles.selectWrapper}>
                             <Picker
                                 style={styles.select}

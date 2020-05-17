@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import Button from '../../components/Button'
 import { checkMobile, sendOTP, getLoginUser,saveUser } from "../../modules/service"
 import { colors, images } from '../../styles'
@@ -182,8 +182,7 @@ class Login extends Component {
    
   
   render() {
-    console.log(this.state)
-    const { hassMobileError, mobileError,mobileNo, activeIndex,numberReg, emailReg,nameReg,isLoading, hassOtpError, otpError } = this.state
+   const { hassMobileError, mobileError,mobileNo, activeIndex,numberReg, emailReg,nameReg,isLoading, hassOtpError, otpError } = this.state
     return (
       isLoading ?
         <Loader />

@@ -255,7 +255,7 @@ class Home extends Component {
               categories && categories.length > 0 && categories.slice(0, 6).map((itm, index) =>
 
                 <View style={styles.singleCategory} onStartShouldSetResponder={() => {
-                  navigation.navigate('Category', { from: 'Profile', categoryId: itm.id })
+                  navigation.navigate('Category', { from: 'Profile', categoryId: itm.id,categoryTitle: itm.title })
                 }}>
                   <Image
                     source={{ uri: this._getUrl(itm.image) }}
